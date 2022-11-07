@@ -93,10 +93,40 @@ public class HeadVariation {
     }
 
     public String translate(String name) {
-        String skull;
         try {
-            BufferedImage image = ImageIO.read(new URL("https://mc-heads.net/avatar/MHF_Steve/8.png"));
+            var url = new URL("https://mc-heads.net/avatar/"+name+"/8.png");
+            return translateUrl(url);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    public CompletableFuture<String> translate(UUID uuid) {
+        var cachedSkull = cachedSkulls.get(uuid);
+        if (cachedSkull != null) {
+            return CompletableFuture.completedFuture(cachedSkull);
+        }
+        return CompletableFuture.supplyAsync(() -> {
+            String skull;
+            try {
+                var url = new URL("https://mc-heads.net/avatar/"+uuid+"/8.png");
+                skull = translateUrl(url);
+                cachedSkulls.put(uuid,skull);
+                return skull;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    public String getSteveSkull() {
+        return steveSkull;
+    }
+
+    private final String translateUrl(URL url) {
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(url);
             StringBuilder builder = new StringBuilder();
             for (int x = 0; x < 8; x++) {
                 if (x > 0) {
@@ -111,7 +141,7 @@ public class HeadVariation {
                     else if (y == 5) character = character6;
                     else if (y == 6) character = character7;
                     else if (y == 7) character = character8;
-                    builder.append(ChatColor.of(new Color(image.getRGB(x, y))) + character);
+                    builder.append(ChatColor.of(new Color(image.getRGB(x,y)))+character);
                     if (y < 7) {
                         for (int i = 0; i <= length; i++) {
                             builder.append(backCharacter);
@@ -119,55 +149,9 @@ public class HeadVariation {
                     }
                 }
             }
-            skull = builder.toString();
-            return skull;
+            return builder.toString();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public CompletableFuture<String> translate(UUID uuid) {
-        var cachedSkull = cachedSkulls.get(uuid);
-        if (cachedSkull != null) {
-            return CompletableFuture.completedFuture(cachedSkull);
-        }
-        return CompletableFuture.supplyAsync(() -> {
-            String skull;
-            try {
-                BufferedImage image = ImageIO.read(new URL("https://mc-heads.net/avatar/"+uuid+"/8.png"));
-
-                StringBuilder builder = new StringBuilder();
-                for (int x = 0; x < 8; x++) {
-                    if (x > 0) {
-                        builder.append(backCharacter);
-                    }
-                    for (int y = 0; y < 8; y++) {
-                        String character = character1;
-                        if (y == 1) character = character2;
-                        else if (y == 2) character = character3;
-                        else if (y == 3) character = character4;
-                        else if (y == 4) character = character5;
-                        else if (y == 5) character = character6;
-                        else if (y == 6) character = character7;
-                        else if (y == 7) character = character8;
-                        builder.append(ChatColor.of(new Color(image.getRGB(x,y)))+character);
-                        if (y < 7) {
-                            for (int i = 0; i <= length; i++) {
-                                builder.append(backCharacter);
-                            }
-                        }
-                    }
-                }
-                skull = builder.toString();
-                cachedSkulls.put(uuid,skull);
-                return skull;
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
-    }
-
-    public String getSteveSkull() {
-        return steveSkull;
     }
 }
