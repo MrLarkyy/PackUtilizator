@@ -1,0 +1,6 @@
+name: PackUtilizator
+version: '${project.version}'
+main: xyz.larkyy.packutilizator.PackUtilizator
+api-version: 1.16
+depend:
+  - PlaceholderAPI
