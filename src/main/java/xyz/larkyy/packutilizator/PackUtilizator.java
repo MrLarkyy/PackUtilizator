@@ -2,6 +2,7 @@ package xyz.larkyy.packutilizator;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import xyz.larkyy.packutilizator.commands.Commands;
 import xyz.larkyy.packutilizator.heads.HeadVariations;
 
 public final class PackUtilizator extends JavaPlugin {
@@ -17,6 +18,9 @@ public final class PackUtilizator extends JavaPlugin {
         }
         headVariations = new HeadVariations();
         headVariations.load();
+
+        getServer().getPluginManager().registerEvents(new Listeners(),this);
+        getCommand("packutilizator").setExecutor(new Commands());
     }
 
     @Override

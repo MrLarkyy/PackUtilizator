@@ -4,3 +4,9 @@ main: xyz.larkyy.packutilizator.PackUtilizator
 api-version: 1.16
 depend:
   - PlaceholderAPI
+commands:
+  packutilizator:
+    aliases:
+      - packutils
+      - putils
+      - putilizator

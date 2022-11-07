@@ -4,7 +4,9 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.clip.placeholderapi.expansion.Relational;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
+import xyz.larkyy.packutilizator.commands.impl.ToggleCommand;
 import xyz.larkyy.packutilizator.heads.HeadVariation;
 
 public class PAPIHook extends PlaceholderExpansion {
@@ -35,9 +37,11 @@ public class PAPIHook extends PlaceholderExpansion {
         if (!player.isOnline()) {
             return "";
         }
-        //https://mc-heads.net/avatar/MHF_Steve/8.png
 
         if(params.contains("skull")) {
+            if (player.getPlayer().getPersistentDataContainer().has(ToggleCommand.NAMESPACED_KEY, PersistentDataType.STRING)) {
+                return "";
+            }
             String variantId = params.split("_")[1];
             HeadVariation variation = PackUtilizator.getInstance().getHeadVariations().getVariation(variantId);
             if (variation == null) return "";

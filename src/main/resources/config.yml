@@ -1,0 +1,16 @@
+skulls:
+  negative-character: "七" # A character that moves the texture about 1 pixel left
+  variations:
+    scale1:
+      character1: "" # Layer 1 Character
+      character2: "" # Layer 2 Character
+      character3: "" # ...
+      character4: ""
+      character5: ""
+      character6: ""
+      character7: ""
+      character8: ""
+      length: 4 # A length of each character
+  messages:
+    heads-disabled: "&fText Heads have been &cdisabled&f!"
+    heads-enabled: "&fText Heads have been &aenabled&f!"
