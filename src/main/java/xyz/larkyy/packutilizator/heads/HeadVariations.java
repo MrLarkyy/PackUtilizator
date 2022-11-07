@@ -1,8 +1,9 @@
 package xyz.larkyy.packutilizator.heads;
 
+import org.bukkit.entity.Player;
+
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 public class HeadVariations {
 
@@ -10,6 +11,18 @@ public class HeadVariations {
 
     public HeadVariation getVariation(String id) {
         return variations.get(id);
+    }
+
+    public void cachePlayer(Player player) {
+        variations.values().forEach(v -> {
+            v.translate(player.getUniqueId());
+        });
+    }
+
+    public void removeCachedPlayer(Player player) {
+        variations.values().forEach(v -> {
+            v.removeCachedPlayer(player);
+        });
     }
 
     public void load() {

@@ -2,6 +2,7 @@ package xyz.larkyy.packutilizator.heads;
 
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.imageio.ImageIO;
@@ -50,6 +51,10 @@ public class HeadVariation {
 
     public String getId() {
         return id;
+    }
+
+    public void removeCachedPlayer(Player player) {
+        cachedSkulls.remove(player.getUniqueId());
     }
 
     public String getCharacter1() {
